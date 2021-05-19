@@ -75,8 +75,8 @@
             position: absolute;
             top: 5%;
             left: 5%;
-            max-width: 40%;
-            background: rgba(255, 255, 255, 0.7);
+            max-width: 30%;
+            background: rgba(255, 255, 255, 0.8);
             padding-bottom: 20px;
             z-index: 1;
             overflow: auto;
@@ -111,8 +111,8 @@
     <div id="footer">
         <div class="container" style="padding-left:20px;">
             <h2>Regeneration Carbon Library</h2>
-            <p1> This map shows the organic carbon stocks in soil (SOC), above-ground living biomass (AGB) and below-ground living biomass (BGB).</p1>
-            <p1> There could be a legend here and some more description here. </p1>
+            <p1> This map shows the organic carbon stocks in soil (SOC), above-ground living biomass (AGB) and below-ground living biomass (BGB). Right now, this map is for demonstration purposes and does not include the most updated data. </p1>
+            <p1> '['There could be a legend here and some more description here.']' </p1>
         </div>
     </div>
 
@@ -141,52 +141,70 @@
                 }
             }
 
-            //Add AGB source and layer
-            map.addSource('AGB-tiles', {
-                'type': 'raster',
-                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/2034efaec12424fba7ea4c28a88659af-1ff989fed6b18fe4c3547ef90fd5d70d/tiles/{z}/{x}/{y}'],
-                'tileSize': 256,
-                'attribution': '<a target="_top" rel="noopener" href="http://regeneration.org">[ATTRIBUTIONS (REGENERATION)]</a>'
-            });
-            map.addLayer({
-                'id': 'AGB-tiles',
-                'type': 'raster',
-                'source': 'AGB-tiles',
-                'minzoom': 0,
-                'maxzoom': 22
-            }, firstSymbolId);
             //Add BGB source and layer
             map.addSource('BGB-tiles', {
                 'type': 'raster',
-                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/b96d1ef350b7c49778bd2eae20904dad-7fb1cd86bcaf968329b483971425b071/tiles/{z}/{x}/{y}'],
+                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/5bd091992943152f6b9fb2489d48adc4-d8ccec386e5ac3ad832ee01839e1c440/tiles/{z}/{x}/{y}'],
                 'tileSize': 256,
                 'attribution': '<a target="_top" rel="noopener" href="http://regeneration.org">[ATTRIBUTIONS (REGENERATION)]</a>'
             });
             map.addLayer({
-                'id': 'BGB-tiles',
+                'id': 'BGB',
                 'type': 'raster',
                 'source': 'BGB-tiles',
                 'minzoom': 0,
                 'maxzoom': 22
             }, firstSymbolId);
-            //Add SOC source and layer
-            map.addSource('SOC-tiles', {
+            //Add AGB source and layer
+            map.addSource('AGB-tiles', {
                 'type': 'raster',
-                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/240a297b31e3d6e8fb5b01055f676d20-5f8b4ec075e1a2b4c6ae9c82d97cbf5a/tiles/{z}/{x}/{y}'],
+                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/16f15a50f0cfaaa08a49b029d688fc36-0356009b01e6634837ac883d071259a9/tiles/{z}/{x}/{y}'],
                 'tileSize': 256,
                 'attribution': '<a target="_top" rel="noopener" href="http://regeneration.org">[ATTRIBUTIONS (REGENERATION)]</a>'
             });
             map.addLayer({
-                'id': 'SOC-tiles',
+                'id': 'AGB',
+                'type': 'raster',
+                'source': 'AGB-tiles',
+                'minzoom': 0,
+                'maxzoom': 22
+            }, firstSymbolId);
+
+
+
+            //Add SOC source and layer
+            map.addSource('SOC-tiles', {
+                'type': 'raster',
+                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/21fa914708f7f2999b3a1446f62214c1-9162d72a69eda45db32ddbe7abfe9730/tiles/{z}/{x}/{y}'],
+                'tileSize': 256,
+                'attribution': '<a target="_top" rel="noopener" href="http://regeneration.org">[ATTRIBUTIONS (REGENERATION)]</a>'
+            });
+            map.addLayer({
+                'id': 'SOC',
                 'type': 'raster',
                 'source': 'SOC-tiles',
                 'minzoom': 0,
                 'maxzoom': 22
             }, firstSymbolId);
+
+            //Add BIOMES source and layer
+            map.addSource('Biome-tiles', {
+                'type': 'raster',
+                'tiles': ['https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/f2a0962e3f6ddd1295cef3e403038c17-16eabd6284832df1b271756a135f5433/tiles/{z}/{x}/{y}'],
+                'tileSize': 256,
+                'attribution': '<a target="_top" rel="noopener" href="http://regeneration.org">[ATTRIBUTIONS (REGENERATION)]</a>'
+            });
+            map.addLayer({
+                'id': 'Biomes',
+                'type': 'raster',
+                'source': 'Biome-tiles',
+                'minzoom': 0,
+                'maxzoom': 22
+            });
         });
 
-        //Make list of toggleable layers - currently only the carbon layers are toggleable (not the basemap)
-        var toggleableLayerIds = ['SOC-tiles', 'AGB-tiles', 'BGB-tiles'];
+        //Make list of toggleable layers
+        var toggleableLayerIds = ['Biomes', 'SOC', 'AGB', 'BGB'];
 
         for (var i = 0; i < toggleableLayerIds.length; i++) {
             var id = toggleableLayerIds[i];
